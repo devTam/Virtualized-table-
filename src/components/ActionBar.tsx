@@ -8,6 +8,7 @@ interface ActionBarProps {
   onSelectAll: () => void
   onSelectNone: () => void
   actions: Action[]
+  selectedRowIds: string[]
 }
 
 export const ActionBar: React.FC<ActionBarProps> = ({
@@ -16,6 +17,7 @@ export const ActionBar: React.FC<ActionBarProps> = ({
   onSelectAll,
   onSelectNone,
   actions,
+  selectedRowIds,
 }) => {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false)
 
@@ -24,7 +26,7 @@ export const ActionBar: React.FC<ActionBarProps> = ({
   }
 
   const handleActionClick = (action: Action) => {
-    // This would be handled by the parent component
+    action.handler(selectedRowIds)
     setIsActionMenuOpen(false)
   }
 

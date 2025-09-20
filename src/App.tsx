@@ -111,11 +111,6 @@ function App() {
     []
   )
 
-  const handleAction = (action: Action) => {
-    const selectedIds = Array.from(selectedRows)
-    action.handler(selectedIds)
-  }
-
   const handleSelectAll = () => {
     selectAllRows(true)
   }
@@ -178,10 +173,8 @@ function App() {
             totalCount={filteredData.length}
             onSelectAll={handleSelectAll}
             onSelectNone={handleSelectNone}
-            actions={actions.map((action) => ({
-              ...action,
-              handler: () => handleAction(action),
-            }))}
+            actions={actions}
+            selectedRowIds={Array.from(selectedRows)}
           />
 
           <VirtualizedTable
