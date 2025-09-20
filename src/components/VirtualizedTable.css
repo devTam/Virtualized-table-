@@ -1,0 +1,183 @@
+.virtualized-table-container {
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.table-header {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e1e5e9;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.table-header-row {
+  display: grid;
+  grid-template-columns: 50px 1fr 1.5fr 100px 100px 80px 120px 100px;
+  gap: 1px;
+  background: #e1e5e9;
+  min-height: 50px;
+}
+
+.table-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 50px 1fr 1.5fr 100px 100px 80px 120px 100px;
+  gap: 1px;
+  background: #e1e5e9;
+  border-bottom: 1px solid #f1f3f4;
+  transition: background-color 0.2s ease;
+}
+
+.table-row:hover {
+  background-color: #f8f9fa;
+}
+
+.table-row.selected {
+  background-color: #e3f2fd;
+}
+
+.table-row.selected:hover {
+  background-color: #bbdefb;
+}
+
+.table-cell {
+  background: white;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.checkbox-cell {
+  justify-content: center;
+  padding: 8px;
+}
+
+.checkbox-cell input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  color: #1976d2;
+  transition: background-color 0.2s ease;
+}
+
+.sortable:hover {
+  background-color: #f5f5f5;
+}
+
+.sortable:focus {
+  outline: 2px solid #1976d2;
+  outline-offset: -2px;
+}
+
+.role-badge, .status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+  display: inline-block;
+  min-width: 60px;
+  text-align: center;
+}
+
+.role-admin {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.role-user {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+}
+
+.role-moderator {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.role-guest {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.status-active {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+}
+
+.status-inactive {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.status-pending {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.status-suspended {
+  background-color: #fafafa;
+  color: #616161;
+}
+
+.table-spacer {
+  width: 100%;
+}
+
+/* Scrollbar styling */
+.table-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.table-body::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.table-body::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .table-header-row,
+  .table-row {
+    grid-template-columns: 50px 1fr 1.2fr 80px 80px 70px 100px 90px;
+  }
+}
+
+@media (max-width: 900px) {
+  .table-header-row,
+  .table-row {
+    grid-template-columns: 50px 1fr 1fr 70px 70px 60px 80px 80px;
+  }
+  
+  .table-cell {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+}
