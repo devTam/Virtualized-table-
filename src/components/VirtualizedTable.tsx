@@ -41,17 +41,21 @@ export const VirtualizedTable: React.FC<VirtualizedTableProps> = ({
     setScrollTop(e.currentTarget.scrollTop)
   }, [])
 
-  const isAllSelected =
-    data.length > 0 && data.every((row) => selectedRows.has(row.id))
-  const isIndeterminate = selectedRows.size > 0 && !isAllSelected
+  const isAllSelected = useMemo(() => {
+    return data.length > 0 && data.every((row) => selectedRows.has(row.id))
+  }, [data, selectedRows])
 
-  const formatDate = (dateString: string) => {
+  const isIndeterminate = useMemo(() => {
+    return selectedRows.size > 0 && !isAllSelected
+  }, [selectedRows.size, isAllSelected])
+
+  const formatDate = useCallback((dateString: string) => {
     return new Date(dateString).toLocaleDateString()
-  }
+  }, [])
 
-  const formatScore = (score: number) => {
+  const formatScore = useCallback((score: number) => {
     return score.toFixed(1)
-  }
+  }, [])
 
   return (
     <div className="virtualized-table-container">

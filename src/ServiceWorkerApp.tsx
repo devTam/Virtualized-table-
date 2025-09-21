@@ -55,6 +55,11 @@ function ServiceWorkerApp() {
     }
 
     initializeServiceWorker()
+
+    // Cleanup on unmount
+    return () => {
+      dataGenerationService.cancelAllRequests()
+    }
   }, [])
 
   // Load data based on selected source
@@ -146,9 +151,13 @@ function ServiceWorkerApp() {
   ) => {
     const id = Date.now().toString()
     setNotifications((prev) => [...prev, { id, message, type }])
-    setTimeout(() => {
+
+    const timeoutId = setTimeout(() => {
       setNotifications((prev) => prev.filter((n) => n.id !== id))
     }, 3000)
+
+    // Store timeout for potential cleanup (though notifications auto-cleanup)
+    return timeoutId
   }
 
   const actions: Action[] = useMemo(

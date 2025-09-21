@@ -29,6 +29,13 @@ export type DataSource = "synthetic" | "api" | "csv"
 export class DataGenerationService {
   private worker: ServiceWorker | null = null
   private isRegistered = false
+  private activeRequests = new Map<
+    string,
+    {
+      messageHandler: (event: MessageEvent) => void
+      timeoutId: number
+    }
+  >()
 
   async initialize(): Promise<void> {
     if (!("serviceWorker" in navigator)) {
@@ -94,22 +101,28 @@ export class DataGenerationService {
             break
 
           case "COMPLETE":
-            navigator.serviceWorker.removeEventListener(
-              "message",
-              messageHandler
-            )
+            this.cleanupRequest(requestId)
             resolve(data)
             break
 
           case "ERROR":
-            navigator.serviceWorker.removeEventListener(
-              "message",
-              messageHandler
-            )
+            this.cleanupRequest(requestId)
             reject(new Error(data))
             break
         }
       }
+
+      // Set a timeout to prevent hanging
+      const timeoutId = window.setTimeout(() => {
+        this.cleanupRequest(requestId)
+        reject(new Error("Data generation timeout"))
+      }, 300000) // 5 minutes timeout
+
+      // Store the request for cleanup
+      this.activeRequests.set(requestId, {
+        messageHandler,
+        timeoutId,
+      })
 
       // Listen for messages from the service worker
       navigator.serviceWorker.addEventListener("message", messageHandler)
@@ -121,12 +134,6 @@ export class DataGenerationService {
         chunkSize,
         requestId,
       })
-
-      // Set a timeout to prevent hanging
-      setTimeout(() => {
-        navigator.serviceWorker.removeEventListener("message", messageHandler)
-        reject(new Error("Data generation timeout"))
-      }, 300000) // 5 minutes timeout
     })
   }
 
@@ -168,22 +175,28 @@ export class DataGenerationService {
             break
 
           case "API_COMPLETE":
-            navigator.serviceWorker.removeEventListener(
-              "message",
-              messageHandler
-            )
+            this.cleanupRequest(requestId)
             resolve(data)
             break
 
           case "API_ERROR":
-            navigator.serviceWorker.removeEventListener(
-              "message",
-              messageHandler
-            )
+            this.cleanupRequest(requestId)
             reject(new Error(data))
             break
         }
       }
+
+      // Set a timeout to prevent hanging
+      const timeoutId = window.setTimeout(() => {
+        this.cleanupRequest(requestId)
+        reject(new Error("API data fetch timeout"))
+      }, 300000)
+
+      // Store the request for cleanup
+      this.activeRequests.set(requestId, {
+        messageHandler,
+        timeoutId,
+      })
 
       navigator.serviceWorker.addEventListener("message", messageHandler)
 
@@ -195,11 +208,6 @@ export class DataGenerationService {
         chunkSize,
         requestId,
       })
-
-      setTimeout(() => {
-        navigator.serviceWorker.removeEventListener("message", messageHandler)
-        reject(new Error("API data fetch timeout"))
-      }, 300000)
     })
   }
 
@@ -235,22 +243,28 @@ export class DataGenerationService {
             break
 
           case "CSV_COMPLETE":
-            navigator.serviceWorker.removeEventListener(
-              "message",
-              messageHandler
-            )
+            this.cleanupRequest(requestId)
             resolve(data)
             break
 
           case "CSV_ERROR":
-            navigator.serviceWorker.removeEventListener(
-              "message",
-              messageHandler
-            )
+            this.cleanupRequest(requestId)
             reject(new Error(data))
             break
         }
       }
+
+      // Set a timeout to prevent hanging
+      const timeoutId = window.setTimeout(() => {
+        this.cleanupRequest(requestId)
+        reject(new Error("CSV parsing timeout"))
+      }, 300000)
+
+      // Store the request for cleanup
+      this.activeRequests.set(requestId, {
+        messageHandler,
+        timeoutId,
+      })
 
       navigator.serviceWorker.addEventListener("message", messageHandler)
 
@@ -262,12 +276,30 @@ export class DataGenerationService {
         chunkSize,
         requestId,
       })
-
-      setTimeout(() => {
-        navigator.serviceWorker.removeEventListener("message", messageHandler)
-        reject(new Error("CSV parsing timeout"))
-      }, 300000)
     })
+  }
+
+  private cleanupRequest(requestId: string): void {
+    const request = this.activeRequests.get(requestId)
+    if (request) {
+      navigator.serviceWorker.removeEventListener(
+        "message",
+        request.messageHandler
+      )
+      clearTimeout(request.timeoutId)
+      this.activeRequests.delete(requestId)
+    }
+  }
+
+  cancelAllRequests(): void {
+    this.activeRequests.forEach((request, requestId) => {
+      navigator.serviceWorker.removeEventListener(
+        "message",
+        request.messageHandler
+      )
+      clearTimeout(request.timeoutId)
+    })
+    this.activeRequests.clear()
   }
 
   isAvailable(): boolean {
@@ -275,6 +307,9 @@ export class DataGenerationService {
   }
 
   async terminate(): Promise<void> {
+    // Cancel all active requests
+    this.cancelAllRequests()
+
     if (this.worker) {
       // Unregister the service worker
       const registrations = await navigator.serviceWorker.getRegistrations()

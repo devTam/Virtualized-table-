@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useCallback } from "react"
 import { FilterState } from "../types"
 import "./FilterPanel.css"
 
@@ -19,29 +19,42 @@ export const FilterPanel: React.FC<FilterPanelProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
-  const handleTextFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onFiltersChange({ textFilter: e.target.value })
-  }
+  const handleTextFilterChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      onFiltersChange({ textFilter: e.target.value })
+    },
+    [onFiltersChange]
+  )
 
-  const handleRoleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    onFiltersChange({ roleFilter: e.target.value || "" })
-  }
+  const handleRoleFilterChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      onFiltersChange({ roleFilter: e.target.value || "" })
+    },
+    [onFiltersChange]
+  )
 
-  const handleStatusFilterChange = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    onFiltersChange({ statusFilter: e.target.value || "" })
-  }
+  const handleStatusFilterChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      onFiltersChange({ statusFilter: e.target.value || "" })
+    },
+    [onFiltersChange]
+  )
 
-  const handleScoreMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value ? parseInt(e.target.value, 10) : null
-    onFiltersChange({ scoreMin: value })
-  }
+  const handleScoreMinChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value ? parseInt(e.target.value, 10) : null
+      onFiltersChange({ scoreMin: value })
+    },
+    [onFiltersChange]
+  )
 
-  const handleScoreMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value ? parseInt(e.target.value, 10) : null
-    onFiltersChange({ scoreMax: value })
-  }
+  const handleScoreMaxChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value ? parseInt(e.target.value, 10) : null
+      onFiltersChange({ scoreMax: value })
+    },
+    [onFiltersChange]
+  )
 
   const hasActiveFilters = activeFilters.length > 0
 

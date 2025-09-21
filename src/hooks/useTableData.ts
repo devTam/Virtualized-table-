@@ -25,41 +25,63 @@ export function useTableData(initialData: TableRow[]) {
     setState((prev) => ({
       ...prev,
       data: initialData,
-      filteredData: initialData, // Will be recalculated by the useMemo below
+      // Don't set filteredData here - let useMemo handle it
     }))
   }, [initialData])
 
   const filteredData = useMemo(() => {
-    let filtered = [...state.data]
+    // Use state.data as the source
+    let filtered = state.data
 
-    // Apply text filter (searches name and email)
-    if (debouncedTextFilter) {
-      const searchTerm = debouncedTextFilter.toLowerCase()
-      filtered = filtered.filter(
-        (row) =>
-          row.name.toLowerCase().includes(searchTerm) ||
-          row.email.toLowerCase().includes(searchTerm)
-      )
-    }
+    // Apply all filters in a single pass to reduce iterations
+    if (
+      debouncedTextFilter ||
+      state.filters.roleFilter ||
+      state.filters.statusFilter ||
+      state.filters.scoreMin !== null ||
+      state.filters.scoreMax !== null
+    ) {
+      const searchTerm = debouncedTextFilter?.toLowerCase()
 
-    // Apply role filter
-    if (state.filters.roleFilter) {
-      filtered = filtered.filter((row) => row.role === state.filters.roleFilter)
-    }
+      filtered = filtered.filter((row) => {
+        // Text filter
+        if (
+          searchTerm &&
+          !row.name.toLowerCase().includes(searchTerm) &&
+          !row.email.toLowerCase().includes(searchTerm)
+        ) {
+          return false
+        }
 
-    // Apply status filter
-    if (state.filters.statusFilter) {
-      filtered = filtered.filter(
-        (row) => row.status === state.filters.statusFilter
-      )
-    }
+        // Role filter
+        if (state.filters.roleFilter && row.role !== state.filters.roleFilter) {
+          return false
+        }
 
-    // Apply score range filter
-    if (state.filters.scoreMin !== null) {
-      filtered = filtered.filter((row) => row.score >= state.filters.scoreMin!)
-    }
-    if (state.filters.scoreMax !== null) {
-      filtered = filtered.filter((row) => row.score <= state.filters.scoreMax!)
+        // Status filter
+        if (
+          state.filters.statusFilter &&
+          row.status !== state.filters.statusFilter
+        ) {
+          return false
+        }
+
+        // Score range filter
+        if (
+          state.filters.scoreMin !== null &&
+          row.score < state.filters.scoreMin!
+        ) {
+          return false
+        }
+        if (
+          state.filters.scoreMax !== null &&
+          row.score > state.filters.scoreMax!
+        ) {
+          return false
+        }
+
+        return true
+      })
     }
 
     // Apply sorting
@@ -80,7 +102,10 @@ export function useTableData(initialData: TableRow[]) {
   }, [
     state.data,
     debouncedTextFilter,
-    state.filters,
+    state.filters.roleFilter,
+    state.filters.statusFilter,
+    state.filters.scoreMin,
+    state.filters.scoreMax,
     state.sortColumn,
     state.sortDirection,
   ])
