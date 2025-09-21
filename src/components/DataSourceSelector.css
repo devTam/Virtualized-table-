@@ -1,0 +1,237 @@
+.data-source-selector {
+  background: white;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.data-source-selector h3 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.source-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.tab {
+  background: none;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 6px 6px 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.tab:hover:not(:disabled) {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.tab.active {
+  background: #e3f2fd;
+  color: #1976d2;
+  border-bottom-color: #1976d2;
+}
+
+.tab:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.source-config {
+  margin-bottom: 24px;
+}
+
+.config-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.config-section label {
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+.config-section input,
+.config-section select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.config-section input:focus,
+.config-section select:focus {
+  outline: none;
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+.config-section input:disabled,
+.config-section select:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.config-section small {
+  color: #666;
+  font-size: 12px;
+  margin-top: -8px;
+}
+
+.file-info {
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.file-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #495057;
+}
+
+.csv-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+.csv-format {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.csv-format h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.csv-format pre {
+  margin: 0;
+  font-size: 12px;
+  color: #495057;
+  background: white;
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #dee2e6;
+  overflow-x: auto;
+}
+
+.api-examples {
+  margin-top: 16px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid #e9ecef;
+}
+
+.api-examples h4 {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.api-examples ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.api-examples li {
+  margin-bottom: 8px;
+}
+
+.api-examples button {
+  background: #1976d2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.2s ease;
+}
+
+.api-examples button:hover:not(:disabled) {
+  background: #1565c0;
+}
+
+.api-examples button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.load-data-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  width: 100%;
+}
+
+.load-data-btn:hover:not(:disabled) {
+  background: #45a049;
+}
+
+.load-data-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .source-tabs {
+    flex-direction: column;
+  }
+  
+  .tab {
+    border-radius: 6px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .tab.active {
+    border-bottom-color: #e0e0e0;
+  }
+  
+  .csv-options {
+    grid-template-columns: 1fr;
+  }
+}

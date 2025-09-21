@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react"
+import { useState, useMemo, useCallback, useEffect } from "react"
 import { TableRow, FilterState, TableState } from "../types"
 import { useDebounce } from "./useDebounce"
 
@@ -19,6 +19,15 @@ export function useTableData(initialData: TableRow[]) {
   })
 
   const debouncedTextFilter = useDebounce(state.filters.textFilter, 300)
+
+  // Update internal state when initialData changes
+  useEffect(() => {
+    setState((prev) => ({
+      ...prev,
+      data: initialData,
+      filteredData: initialData, // Will be recalculated by the useMemo below
+    }))
+  }, [initialData])
 
   const filteredData = useMemo(() => {
     let filtered = [...state.data]
