@@ -7,7 +7,7 @@ import {
   SyntheticDataOptions,
 } from "./services/DataGenerationService"
 import { useTableData } from "./hooks/useTableData"
-import { VirtualizedTable } from "./components/VirtualizedTable"
+import { ReactTable } from "./components/ReactTable"
 import { FilterPanel } from "./components/FilterPanel"
 import { ActionBar } from "./components/ActionBar"
 import { DataSourceSelector } from "./components/DataSourceSelector"
@@ -333,7 +333,7 @@ function ServiceWorkerApp() {
               />
 
               {filteredData.length > 0 ? (
-                <VirtualizedTable
+                <ReactTable
                   data={filteredData}
                   selectedRows={selectedRows}
                   onRowSelect={toggleRowSelection}

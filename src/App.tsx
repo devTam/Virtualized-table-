@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { generateTableData } from "./dataGenerator"
 import { useTableData } from "./hooks/useTableData"
-import { VirtualizedTable } from "./components/VirtualizedTable"
+import { ReactTable } from "./components/ReactTable"
 import { FilterPanel } from "./components/FilterPanel"
 import { ActionBar } from "./components/ActionBar"
 import { Action } from "./types"
@@ -177,7 +177,7 @@ function App() {
             selectedRowIds={Array.from(selectedRows)}
           />
 
-          <VirtualizedTable
+          <ReactTable
             data={filteredData}
             selectedRows={selectedRows}
             onRowSelect={toggleRowSelection}

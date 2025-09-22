@@ -1,0 +1,271 @@
+/* React Table Styles */
+.react-table-container {
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* Enable horizontal scrolling on mobile */
+  overflow-x: auto;
+}
+
+.react-table-wrapper {
+  min-width: 100%;
+  overflow-x: auto;
+}
+
+.react-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  min-width: 800px; /* Ensure minimum width for all columns */
+}
+
+/* Header Styles */
+.react-table-header {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e1e5e9;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.react-table-header-cell {
+  padding: 12px 8px;
+  text-align: left;
+  font-weight: 600;
+  color: #1976d2;
+  border-right: 1px solid #f1f3f4;
+  background: #f8f9fa;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.react-table-header-cell.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.react-table-header-cell.sortable:hover {
+  background-color: #f5f5f5;
+}
+
+.react-table-header-cell.sortable:focus {
+  outline: 2px solid #1976d2;
+  outline-offset: -2px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Body Styles */
+.react-table-body-container {
+  background: white;
+  position: relative;
+}
+
+.react-table-body {
+  background: white;
+}
+
+.react-table-row {
+  border-bottom: 1px solid #f1f3f4;
+  transition: background-color 0.2s ease;
+  display: table-row;
+  width: 100%;
+}
+
+.react-table-row:hover {
+  background-color: #f8f9fa;
+}
+
+.react-table-row.selected {
+  background-color: #e3f2fd;
+}
+
+.react-table-row.selected:hover {
+  background-color: #bbdefb;
+}
+
+.react-table-cell {
+  padding: 8px 8px;
+  border-right: 1px solid #f1f3f4;
+  font-size: 14px;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* Checkbox Styles */
+.react-table-header-cell input[type="checkbox"],
+.react-table-cell input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* Badge Styles */
+.role-badge, .status-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+  display: inline-block;
+  text-align: center;
+}
+
+.role-admin {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.role-user {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+}
+
+.role-moderator {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+.role-guest {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.status-active {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+}
+
+.status-inactive {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.status-pending {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .react-table-container {
+    min-width: 600px;
+    border-radius: 4px;
+  }
+
+  .react-table {
+    min-width: 600px;
+  }
+
+  .react-table-header-cell,
+  .react-table-cell {
+    padding: 8px 6px;
+    font-size: 12px;
+  }
+
+  .role-badge, .status-badge {
+    padding: 2px 6px;
+    font-size: 10px;
+    border-radius: 8px;
+  }
+
+  .react-table-header-cell.sortable {
+    min-height: 44px; /* iOS touch target minimum */
+  }
+
+  .react-table-header-cell input[type="checkbox"],
+  .react-table-cell input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Enhanced touch interactions for mobile */
+  .react-table-row {
+    min-height: 44px;
+    transition: background-color 0.1s ease;
+  }
+
+  .react-table-row:active {
+    background-color: #e3f2fd;
+  }
+
+  .react-table-header-cell.sortable:active {
+    background-color: #e8f5e8;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .react-table-container {
+    min-width: 500px;
+  }
+
+  .react-table {
+    min-width: 500px;
+  }
+
+  .react-table-header-cell,
+  .react-table-cell {
+    padding: 6px 4px;
+    font-size: 11px;
+  }
+
+  .role-badge, .status-badge {
+    padding: 1px 4px;
+    font-size: 9px;
+  }
+
+  .react-table-header-cell.sortable {
+    min-height: 40px;
+  }
+}
+
+/* Tablet landscape and small desktop */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .react-table-header-cell,
+  .react-table-cell {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+}
+
+/* Large desktop screens */
+@media (min-width: 1200px) {
+  .react-table-header-cell,
+  .react-table-cell {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}
+
+/* Hide scrollbars for clean appearance */
+.react-table-container::-webkit-scrollbar {
+  display: none;
+}
+
+.react-table-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.react-table-container {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.react-table-wrapper {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
